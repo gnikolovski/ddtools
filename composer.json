@@ -1,0 +1,20 @@
+{
+    "name": "gnikolovski/ddtools",
+    "description": "Various development tools for Drupal 8 and above.",
+    "type": "drupal-module",
+    "homepage": "https://github.com/gnikolovski/ddtools",
+    "authors": [
+        {
+            "name": "Goran Nikolovski",
+            "email": "goran@gorannikolovski.com",
+            "homepage": "https://gorannikolovski.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/gnikolovski/ddtools/issues",
+        "email": "goran@gorannikolovski.com"
+    },
+    "license": "GPL-2.0+",
+    "minimum-stability": "dev"
+}

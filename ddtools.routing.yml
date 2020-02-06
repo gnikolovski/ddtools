@@ -1,0 +1,9 @@
+ddtools.entity_fields_form:
+  path: 'ddtools/entity-fields'
+  defaults:
+    _form: '\Drupal\ddtools\Form\EntityFieldsForm'
+    _title: 'Entity fields'
+  requirements:
+    _role: 'administrator'
+  options:
+    _admin_route: TRUE

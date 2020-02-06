@@ -1,0 +1,5 @@
+ddtools.entity_fields_form:
+  title: 'Entity fields'
+  description: '.'
+  route_name: ddtools.entity_fields_form
+  parent: system.admin_config_development

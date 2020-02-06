@@ -1,0 +1,8 @@
+name: 'Drupal Dev Tools'
+type: module
+description: 'Various development tools for Drupal 8 and above.'
+core: 8.x
+package: 'Development'
+dependencies:
+  devel:devel
+  devel:kint
