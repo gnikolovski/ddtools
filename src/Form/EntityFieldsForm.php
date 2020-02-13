@@ -87,6 +87,17 @@ class EntityFieldsForm extends FormBase {
       '#suffix' => '</div>',
     ];
 
+    $form['field_cardinality'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Field cardinality'),
+      '#options' => [
+        '0' => $this->t('All'),
+        '-1' => $this->t('Unlimited'),
+        '1' => $this->t('Single'),
+      ],
+      '#default_value' => '0',
+    ];
+
     $form['kint_max_levels'] = [
       '#type' => 'select',
       '#title' => $this->t('Kint max levels'),
@@ -129,11 +140,19 @@ class EntityFieldsForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $entity_type = $form_state->getValue('entity_type');
     $entity_bundle = $form_state->getValue('entity_bundle');
+    $field_cardinality = $form_state->getValue('field_cardinality');
     $kint_max_levels = $form_state->getValue('kint_max_levels');
 
     kint_require();
     \Kint::$maxLevels = $kint_max_levels;
-    dsm($this->entityFieldManager->getFieldDefinitions($entity_type, $entity_bundle));
+    $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type, $entity_bundle);
+    $filtered_field_definitions = array_filter($field_definitions, function($item) use($field_cardinality) {
+      if ($field_cardinality == 0) {
+        return TRUE;
+      }
+      return $item->getCardinality() == $field_cardinality;
+    });
+    dsm($filtered_field_definitions);
 
     $form_state->setRebuild();
     $this->messenger->addMessage($this->t('Entity type: @entity_type, bundle: @entity_bundle', [
@@ -149,7 +168,7 @@ class EntityFieldsForm extends FormBase {
    *   The list of all entity types.
    */
   protected function getEntityTypes() {
-    $entity_types = [];
+    $entity_types = ['_none' => $this->t('- Select -')];
 
     $entity_type_definitions = $this->entityTypeManager
       ->getDefinitions();
