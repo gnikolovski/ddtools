@@ -26,6 +26,12 @@ INSTALLATION
  * Install the Drupal Dev Tools module as you would normally install a
    contributed Drupal module. Visit https://www.drupal.org/node/1897420 for
    further information.
+   
+ * To download the module, enter the following command at the root of your site:
+ 
+```shell
+composer require gnikolovski/ddtools
+```
 
 
 CONFIGURATION
