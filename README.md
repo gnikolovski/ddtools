@@ -11,7 +11,7 @@ CONTENTS OF THIS FILE
 INTRODUCTION
 ------------
 
-Various development tools for Drupal 8 and above.
+Various development tools for Drupal 8/9.
 
 
 REQUIREMENTS
