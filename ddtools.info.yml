@@ -1,7 +1,8 @@
 name: 'Drupal Dev Tools'
 type: module
-description: 'Various development tools for Drupal 8 and above.'
+description: 'Various development tools for Drupal 8/9.'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'Development'
 dependencies:
   devel:devel
