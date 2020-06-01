@@ -6,6 +6,7 @@ use Drupal\Core\Entity\ContentEntityType;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 
 /**
  * Class EntityFieldsForm.
@@ -128,7 +129,7 @@ class EntityFieldsForm extends FormBase {
    * @return mixed
    *   The form element with options.
    */
-  public function getEntityBundles(&$form, FormStateInterface $form_state) {
+  public function getEntityBundles(array &$form, FormStateInterface $form_state) {
     $entity_type = $form_state->getValue('entity_type');
     $form['entity_bundle']['#options'] = $this->getEntityTypeBundles($entity_type);
     return $form['entity_bundle'];
@@ -146,11 +147,11 @@ class EntityFieldsForm extends FormBase {
     kint_require();
     \Kint::$maxLevels = $kint_max_levels;
     $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type, $entity_bundle);
-    $filtered_field_definitions = array_filter($field_definitions, function($item) use($field_cardinality) {
+    $filtered_field_definitions = array_filter($field_definitions, function ($item) use ($field_cardinality) {
       if ($field_cardinality == 0) {
         return TRUE;
       }
-      return $item->getCardinality() == $field_cardinality;
+      return $item instanceof BaseFieldDefinition ? $item->getCardinality() == $field_cardinality : TRUE;
     });
     dsm($filtered_field_definitions);
 
