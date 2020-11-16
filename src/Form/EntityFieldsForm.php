@@ -6,10 +6,9 @@ use Drupal\Core\Entity\ContentEntityType;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
 
 /**
- * Class EntityFieldsForm.
+ * Class Entity Fields Form.
  */
 class EntityFieldsForm extends FormBase {
 
@@ -163,7 +162,7 @@ class EntityFieldsForm extends FormBase {
       if ($field_cardinality == 0) {
         return TRUE;
       }
-      return $item instanceof BaseFieldDefinition ? $item->getCardinality() == $field_cardinality : TRUE;
+      return $item->getCardinality() == $field_cardinality;
     });
     dsm($filtered_field_definitions);
 
