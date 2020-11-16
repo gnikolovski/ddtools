@@ -99,15 +99,20 @@ class EntityFieldsForm extends FormBase {
       '#default_value' => '0',
     ];
 
-    $form['kint_max_levels'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Kint max levels'),
-      '#options' => [],
-      '#default_value' => 3,
-      '#required' => TRUE,
-    ];
-    for ($i = 1; $i < 11; $i++) {
-      $form['kint_max_levels']['#options'][$i] = $i;
+    if (
+      (function_exists('kint_require') && property_exists('\Kint', 'maxLevels')) ||
+      property_exists('\Kint', 'max_depth')
+    ) {
+      $form['kint_max_levels'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Kint max levels'),
+        '#options' => [],
+        '#default_value' => 3,
+        '#required' => TRUE,
+      ];
+      for ($i = 1; $i < 11; $i++) {
+        $form['kint_max_levels']['#options'][$i] = $i;
+      }
     }
 
     $form['submit'] = [
@@ -142,10 +147,17 @@ class EntityFieldsForm extends FormBase {
     $entity_type = $form_state->getValue('entity_type');
     $entity_bundle = $form_state->getValue('entity_bundle');
     $field_cardinality = $form_state->getValue('field_cardinality');
-    $kint_max_levels = $form_state->getValue('kint_max_levels');
 
-    kint_require();
-    \Kint::$maxLevels = $kint_max_levels;
+    if (function_exists('kint_require') && property_exists('\Kint', 'maxLevels')) {
+      $kint_max_levels = $form_state->getValue('kint_max_levels');
+      kint_require();
+      \Kint::$maxLevels = $kint_max_levels;
+    }
+    elseif (property_exists('\Kint', 'max_depth')) {
+      $kint_max_levels = $form_state->getValue('kint_max_levels');
+      \Kint::$max_depth = $kint_max_levels;
+    }
+
     $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type, $entity_bundle);
     $filtered_field_definitions = array_filter($field_definitions, function ($item) use ($field_cardinality) {
       if ($field_cardinality == 0) {
